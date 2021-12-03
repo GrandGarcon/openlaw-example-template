@@ -4,12 +4,15 @@ import getWeb3 from "./utils/getWeb3";
 import { Container,Grid, Button, Form} from 'semantic-ui-react';
 import { APIClient, Openlaw } from 'openlaw';
 import "./App.css";
-    
-     //PLEASE SUPPLY YOUR OWN LOGIN CREDENTIALS and TEMPLATE NAME FOR OPENLAW
+
+require('dotenv').config();
+
     const URL = "https://lib.openlaw.io/api/v1/default";  //url for your openlaw instance eg. "http://lib.openlaw.io"
-    const TEMPLATE_NAME = "OpenLaw API Tutorial Sale Agreement"; //name of template stored on Openlaw
-    const OPENLAW_USER = 'email@example.com'; //add your Openlaw login email
-    const OPENLAW_PASSWORD = 'password here!' //add your Openlaw password
+    const TEMPLATE_NAME = "OpenLaw API Tutorial Loan provision Agreement"; //name of template stored on Openlaw
+    var OPENLAW_USER = process.env["OPENLAW_USER"];
+    var OPENLAW_PASSWORD = process.env["OPENLAW_PASSWORD"];
+   // const OPENLAW_USER = 'email@example.com'; //add your Openlaw login email
+   // const OPENLAW_PASSWORD = 'password here!' //add your Openlaw password
     //create config 
     const openLawConfig = {
       server:URL, 
@@ -19,11 +22,33 @@ import "./App.css";
     }
     
     //create an instance of the API client with url as parameter
-    const apiClient = new APIClient(URL);
+const apiClient = new APIClient(URL);
 
 class App extends Component {
-  
-//initial state of variables for BillOfSale Template, and web3,etc
+
+// initial template for vars for the loan template  by finz along with the template of the 
+/* example state of the template contract .
+
+state = {
+  effectiveDate: '',
+  lender: '',
+  BorrowedAmount: '',
+  effectiveDate: '',
+  PrincipalLoanAmount: '',
+  CollateralShares: '',
+  web3: null, 
+  accounts: null, 
+  contract: null,
+  myTemplate: null, 
+  myContent: null,
+  creatorId:'',
+  myCompiledTemplate: null, 
+  draftId:'' 
+
+}
+
+ */
+
   state = { 
 
       seller: '', 
@@ -41,6 +66,7 @@ class App extends Component {
       myCompiledTemplate: null, 
       draftId:'' 
   };
+ 
 
   componentDidMount = async () => {
     try {
@@ -117,7 +143,18 @@ previewTemplate = async (event) => {
     event.preventDefault();
       //Display HTML 
     try{
-      
+
+/*
+      const LoancontractParams = {
+        "Borrower address": this.state.seller,
+        "Lender address": this.state.buyer,
+        "Borrower amount": "this.state.BorrowedAmount",
+        "Principal loan amt" :  "this.state.PrincipalLoanAmount"
+        //TODO: and so on , remove the other details once the loan contract is finalized. 
+
+      }
+
+*/
       const params = {
           "Seller Address": this.state.seller,
           "Buyer Address": this.state.buyer,
